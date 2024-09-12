@@ -3,48 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reserva;
-use App\Http\Requests\StoreReservaRequest;
-use App\Http\Requests\UpdateReservaRequest;
+use App\Models\Clientes;
+use App\Services\ReservaService;
+use Illuminate\Http\JsonResponse;
 
-class ReservaController extends Controller
+class LeadsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $reservaService;
+
+    public function __construct(ReservaService $reservaService)
     {
-        //
+        $this->reservaService = $reservaService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreReservaRequest $request)
+    public function fetchAndSave(): JsonResponse
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reserva $reserva)
-    {
-        //
-    }
+        $clientes = Clientes::where('ativo', 'ativo')->get();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReservaRequest $request, Reserva $reserva)
-    {
-        //
-    }
+        foreach ($clientes as $cliente) {
+            try {
+                $this->reservaService->fetchAndStoreReserva($cliente->id, $cliente->email_cliente, $cliente->token_cliente, '/reservas');
+                return response()->json(['message' => 'Reserva saved successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reserva $reserva)
-    {
-        //
+        
     }
 }

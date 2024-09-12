@@ -3,48 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leads;
-use App\Http\Requests\StoreLeadsRequest;
-use App\Http\Requests\UpdateLeadsRequest;
+use App\Models\Clientes;
+use App\Services\LeadsService;
+use Illuminate\Http\JsonResponse;
 
 class LeadsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $leadsService;
+
+    public function __construct(LeadsService $leadsService)
     {
-        //
+        $this->leadsService = $leadsService;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLeadsRequest $request)
+    public function fetchAndSave(): JsonResponse
     {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Leads $leads)
-    {
-        //
-    }
+        $clientes = Clientes::where('ativo', 'ativo')->get();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLeadsRequest $request, Leads $leads)
-    {
-        //
-    }
+        foreach ($clientes as $cliente) {
+            try {
+                $this->leadsService->fetchAndStoreLead();
+                return response()->json(['message' => 'Lead saved successfully'], 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => $e->getMessage()], 500);
+            }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Leads $leads)
-    {
-        //
+        
     }
 }
