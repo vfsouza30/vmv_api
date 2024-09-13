@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('campos_adicionais', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45);
-            $table->string('referencia_data', 45);
-            $table->string('ativo', 45);
-            $table->integer('idcampo');
-            $table->string('campo_nome', 200);
-            $table->integer('idfuncionalidade');
-            $table->string('funcionalidade', 200);
-            $table->string('valor', 45);
-            $table->string('data_cad', 45);
-            $table->string('data_modificacao', 45);
+            $table->string('referencia', 45)->nullable();
+            $table->string('referencia_data', 45)->nullable();
+            $table->string('ativo', 45)->nullable();
+            $table->integer('idcampo')->nullable();
+            $table->string('campo_nome', 200)->nullable();
+            $table->integer('idfuncionalidade')->nullable();
+            $table->string('funcionalidade', 200)->nullable();
+            $table->string('valor', 45)->nullable();
+            $table->string('data_cad', 45)->nullable();
+            $table->string('data_modificacao', 45)->nullable();
 
             $table->unsignedBigInteger('clientes_id');
             $table->timestamps();

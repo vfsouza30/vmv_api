@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('pessoas', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45);
-            $table->string('referencia_data', 45);
-            $table->integer('idpessoa');
-            $table->string('idpessoa_int', 45);
-            $table->string('idpessoa_legado', 45);
-            $table->string('data_cad', 45);
-            $table->string('ativo_painel', 45);
-            $table->string('ativo_login', 45);
-            $table->string('situacao', 45);
-            $table->string('validado', 45);
-            $table->double('renda_familar');
+            $table->string('referencia', 45)->nullable();
+            $table->string('referencia_data', 45)->nullable();
+            $table->integer('idpessoa')->nullable();
+            $table->string('idpessoa_int', 45)->nullable();
+            $table->string('idpessoa_legado', 45)->nullable();
+            $table->string('data_cad', 45)->nullable();
+            $table->string('ativo_painel', 45)->nullable();
+            $table->string('ativo_login', 45)->nullable();
+            $table->string('situacao', 45)->nullable();
+            $table->string('validado', 45)->nullable();
+            $table->double('renda_familar')->nullable();
 
             $table->unsignedBigInteger('clientes_id');
             $table->timestamps();

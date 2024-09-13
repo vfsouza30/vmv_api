@@ -13,27 +13,27 @@ return new class extends Migration
     {
         Schema::create('leads_conversoes', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45);
-            $table->string('referencia_data', 45);
-            $table->string('ativo', 45);
-            $table->integer('idlead_conversao');
-            $table->integer('idlead');
-            $table->string('nome', 200);
-            $table->string('email', 200);
-            $table->string('telefone', 45);
-            $table->string('origem', 45);
-            $table->string('origem_conversao', 45);
-            $table->string('conversao', 45);
-            $table->string('data_cad', 45);
-            $table->string('midia', 45);
-            $table->string('midia_conversao', 45);
-            $table->integer('gestor');
-            $table->integer('gestor_ultimo');
-            $table->integer('empreendimento_ultimo');
-            $table->integer('corretor');
-            $table->integer('corretor_ultimo');
-            $table->integer('imobiliaria');
-            $table->integer('imobiliaria_ultima');
+            $table->string('referencia', 45)->nullable();
+            $table->string('referencia_data', 45)->nullable();
+            $table->string('ativo', 45)->nullable();
+            $table->integer('idlead_conversao')->nullable();
+            $table->integer('idlead')->nullable();
+            $table->string('nome', 200)->nullable();
+            $table->string('email', 200)->nullable();
+            $table->string('telefone', 45)->nullable();
+            $table->string('origem', 45)->nullable();
+            $table->string('origem_conversao', 45)->nullable();
+            $table->string('conversao', 45)->nullable();
+            $table->string('data_cad', 45)->nullable();
+            $table->string('midia', 45)->nullable();
+            $table->string('midia_conversao', 45)->nullable();
+            $table->integer('gestor')->nullable();
+            $table->integer('gestor_ultimo')->nullable();
+            $table->integer('empreendimento_ultimo')->nullable();
+            $table->integer('corretor')->nullable();
+            $table->integer('corretor_ultimo')->nullable();
+            $table->integer('imobiliaria')->nullable();
+            $table->integer('imobiliaria_ultima')->nullable();
 
 
             $table->unsignedBigInteger('clientes_id');

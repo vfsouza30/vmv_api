@@ -18,18 +18,11 @@ class LeadsController extends Controller
 
     public function fetchAndSave(): JsonResponse
     {
-
-        $clientes = Clientes::where('ativo', 'ativo')->get();
-
-        foreach ($clientes as $cliente) {
             try {
                 $this->leadsService->fetchAndStoreLead();
                 return response()->json(['message' => 'Lead saved successfully'], 200);
             } catch (\Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
-        }
-
-        
     }
 }

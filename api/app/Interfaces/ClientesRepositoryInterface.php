@@ -4,8 +4,13 @@
 namespace App\Interfaces;
 
 use App\Models\Clientes;
+use Illuminate\Support\Collection;
 
 interface ClientesRepositoryInterface
 {
-    public function getClients(): Clientes;
+    /**
+     * @return Collection|Clientes[]
+     */
+
+    public function getClients(): Collection;
 }

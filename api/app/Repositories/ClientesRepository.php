@@ -5,11 +5,15 @@ namespace App\Repositories;
 
 use App\Interfaces\ClientesRepositoryInterface;
 use App\Models\Clientes;
+use Illuminate\Support\Collection;
 
 class ClientesRepository implements ClientesRepositoryInterface
 {
-    public function getClients(): Clientes
+    /**
+     * @return Collection|Clientes[]
+     */
+    public function getClients(): Collection
     {
-        return Clientes::all();
+        return Clientes::where('ativo', 'ativo')->get();
     }
 }

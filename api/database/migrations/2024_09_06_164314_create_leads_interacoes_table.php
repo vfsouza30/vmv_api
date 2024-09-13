@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('leads_interacoes', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45);
-            $table->string('referencia_data', 45);
-            $table->integer('idinteracao');
-            $table->integer('idlead');
-            $table->string('data_cad', 45);
-            $table->integer('idcorretor');
-            $table->string('corretor', 200);
-            $table->integer('idimobiliaria');
-            $table->string('imobiliaria', 200);
-            $table->string('tipo', 45);
-            $table->string('situacao', 45);
-            $table->longText('descricao');
-            $table->string('gestor_interacao', 200);
+            $table->string('referencia', 45)->nullable();
+            $table->string('referencia_data', 45)->nullable();
+            $table->integer('idinteracao')->nullable();
+            $table->integer('idlead')->nullable();
+            $table->string('data_cad', 45)->nullable();
+            $table->integer('idcorretor')->nullable();
+            $table->string('corretor', 200)->nullable();
+            $table->integer('idimobiliaria')->nullable();
+            $table->string('imobiliaria', 200)->nullable();
+            $table->string('tipo', 45)->nullable();
+            $table->string('situacao', 45)->nullable();
+            $table->longText('descricao')->nullable();
+            $table->string('gestor_interacao', 200)->nullable();
 
             $table->unsignedBigInteger('clientes_id');
             $table->timestamps();

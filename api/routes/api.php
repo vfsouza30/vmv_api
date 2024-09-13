@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LeadsController;
-use App\Http\Controllers\ReservaController;
+/*use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\LeadsVisitaController;
 use App\Http\Controllers\VendasController;
 use App\Http\Controllers\CorretoresController;
@@ -21,7 +21,7 @@ use App\Http\Controllers\LeadConversoesController;
 use App\Http\Controllers\LeadTarefasController;
 use App\Http\Controllers\ImobiliariasController;
 use App\Http\Controllers\PreCadastroController;
-use App\Http\Controllers\RepasseController;
+use App\Http\Controllers\RepasseController;*/
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ use App\Http\Controllers\RepasseController;
 */
 
 Route::get('/leads', [LeadsController::class, 'fetchAndSave']);
-Route::get('/reservas', [ReservaController::class, 'fetchAndSave']);
+/*Route::get('/reservas', [ReservaController::class, 'fetchAndSave']);
 Route::get('/leads-vista', [LeadsVisitaController::class, 'fetchAndSave']);
 Route::get('/vendas', [VendasController::class, 'fetchAndSave']);
 Route::get('/corretores', [CorretoresController::class, 'fetchAndSave']);
@@ -53,4 +53,4 @@ Route::get('/leads-conversoes', [LeadsConversoesController::class, 'fetchAndSave
 Route::get('/leads-tarefas', [LeadsTarefasController::class, 'fetchAndSave']);
 Route::get('/imobiliarias', [ImobiliariasController::class, 'fetchAndSave']);
 Route::get('/pre-cadastro', [PreCadastroController::class, 'fetchAndSave']);
-Route::get('/repasse', [RepasseController::class, 'fetchAndSave']);
+Route::get('/repasse', [RepasseController::class, 'fetchAndSave']);*/
