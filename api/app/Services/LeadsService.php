@@ -13,22 +13,59 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\ProcessLeadsPage;
 
-class LeadsService extends ApiService
+class LeadsService
 {
     protected $leadsRepository;
+    protected $requestsPerMinute = 200; // Limite de requisições
+    protected $requestCount = 0; // Contador de requisições
+    protected $startTime; // Hora do início do lote de requisições
+
     
     private $sufix_url = 'api/v1/cvdw';
 
     public function __construct(LeadsRepositoryInterface $leadsRepository, ClientesRepositoryInterface $clientesRepository)
     {
-        parent::__construct();
+        //parent::__construct();
         $this->leadsRepository = $leadsRepository;
         $this->clientesRepository = $clientesRepository;
         $this->startTime = Carbon::now(); // Inicia o timestamp
-        $this->fetchAndStoreLead();
     }
 
-    public function fetchAndStoreLead()
+   /* protected function makeApiRequest( string $email_cliente, string $token_cliente, int $page, string $url)
+    {
+        // Fazer a requisição com a página específica
+        $this->requestCount++; // Incrementa o contador de requisições
+
+       return Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'email' => $email_cliente,
+            'token' => $token_cliente, // Passa a página no body da requisição
+        ])->get($url, [
+            'pagina' => $page
+        ]);
+
+    }*/
+
+    protected function throttleRequest()
+    {
+        // Calcular o tempo decorrido desde o início do lote de requisições
+        $elapsedTime = Carbon::now()->diffInSeconds($this->startTime);
+
+        // Se o tempo decorrido for menor que 60 segundos, aguarde o tempo restante
+        if($elapsedTime < 60) {
+
+            $waitTime = 60 - $elapsedTime;
+            // Usar uma solução de espera não bloqueante com enventos ou filas
+            sleep($waitTime); // Aqui usamos sleep para simular o tempo de espera
+        }
+
+        // Resetar o contador de requisições e o timestamp
+        $this->requestCount = 0;
+        $this->startTime = Carbon::now(); // Inicia o timestamp novamente
+
+    }
+
+    /*public function fetchAndStoreLead()
     {
         $clientes = $this->clientesRepository->getClients();
         if ($clientes->isNotEmpty()) {
@@ -42,7 +79,59 @@ class LeadsService extends ApiService
                 }
              }
         }
-    }
+    }*/
+
+   /* protected function processClientLeads($cliente, $urlCompleted)
+    {
+        $currentPage = 1;
+        $totalPages = 1;
+
+        while ($currentPage <= $totalPages) {
+            if($this->requestCount >= $this->requestsPerMinute){
+                $this->throttleRequest();
+            }
+            
+            $response = $this->makeApiRequest($cliente->email_cliente, $cliente->token_cliente, $currentPage, $urlCompleted);
+            dd($response);
+
+            if($response->failed()) {
+                throw new ApiRequestException('Failed to fetch leads from API.');
+            }
+            
+            $datas = $response->json();
+
+            // Atualizar o número total de páginas
+            if(count($datas) > 0) {
+
+                $totalPages = $datas['total_de_paginas'];
+    
+                // Processar os dados recebidos
+                $this->actionRequest($datas, $cliente->id);
+            }
+
+            // Incrementar a página
+            $currentPage++;
+        }
+    }*/
+
+    /*protected function processClientLeads($cliente, $urlCompleted)
+    {
+        $currentPage = 1;
+        $response = $this->makeApiRequest($cliente->email_cliente, $cliente->token_cliente, $currentPage, $urlCompleted);
+
+        if($response->failed()) {
+            throw new ApiRequestException('Failed to fetch leads from API.');
+        }
+
+        $datas = $response->json();
+        $totalPages = $datas['total_de_paginas'];
+
+        // Enfileira um job para cada página da API
+        for ($page = 1; $page <= $totalPages; $page++) {
+            Log::info('teste', [$page]);
+            ProcessLeadsPage::dispatch($cliente, $urlCompleted, $page)->onQueue('leads');
+        }
+    }*/
 
     public function actionRequest($datas, $clienteId)
     {
@@ -114,81 +203,5 @@ class LeadsService extends ApiService
             $return = $this->leadsRepository->saveLeads($leadData);
         }
     }
-
-   /* protected function processClientLeads($cliente, $urlCompleted)
-    {
-        $currentPage = 1;
-        $totalPages = 1;
-
-        while ($currentPage <= $totalPages) {
-            if($this->requestCount >= $this->requestsPerMinute){
-                $this->throttleRequest();
-            }
-            
-            $response = $this->makeApiRequest($cliente->email_cliente, $cliente->token_cliente, $currentPage, $urlCompleted);
-            dd($response);
-
-            if($response->failed()) {
-                throw new ApiRequestException('Failed to fetch leads from API.');
-            }
-            
-            $datas = $response->json();
-
-            // Atualizar o número total de páginas
-            if(count($datas) > 0) {
-
-                $totalPages = $datas['total_de_paginas'];
-    
-                // Processar os dados recebidos
-                $this->actionRequest($datas, $cliente->id);
-            }
-
-            // Incrementar a página
-            $currentPage++;
-        }
-    }*/
-
-    protected function processClientLeads($cliente, $urlCompleted)
-    {
-        $currentPage = 1;
-        $response = $this->makeApiRequest($cliente->email_cliente, $cliente->token_cliente, $currentPage, $urlCompleted);
-
-        if($response->failed()) {
-            throw new ApiRequestException('Failed to fetch leads from API.');
-        }
-
-        $datas = $response->json();
-        $totalPages = $datas['total_de_paginas'];
-
-        // Enfileira um job para cada página da API
-        for ($page = 1; $page <= $totalPages; $page++) {
-            Log::info('teste', [$page]);
-            ProcessLeadsPage::dispatch($cliente, $urlCompleted, $page)->onQueue('leads');
-        }
-    }
-
-    public function processSinglePage($cliente, $urlCompleted, $page)
-    {
-        Log::info('Inicia Request', [$page]);
-
-        if($this->requestCount >= $this->requestsPerMinute){
-            $this->throttleRequest();
-        }
-
-        $response = $this->makeApiRequest($cliente->email_cliente, $cliente->token_cliente, $page, $urlCompleted);
-        
-        if ($response->failed()) {
-            throw new ApiRequestException('Failed to fetch leads from API.');
-        }
-        
-        $datas = $response->json();
-        Log::info('Finalizou Request', [count($datas['dados']), $page]);
-
-        // Processa os leads da página
-        if (count($datas) > 0) {
-            $this->actionRequest($datas, $cliente->id);
-        }
-    }
-
 
 }
