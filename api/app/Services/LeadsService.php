@@ -23,7 +23,7 @@ class LeadsService
     
     private $sufix_url = 'api/v1/cvdw';
 
-    public function __construct(LeadsRepositoryInterface $leadsRepository, ClientesRepositoryInterface $clientesRepository)
+    public function __construct(LeadsRepositoryInterface $leadsRepository)
     {
         //parent::__construct();
         $this->leadsRepository = $leadsRepository;

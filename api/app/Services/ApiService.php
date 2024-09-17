@@ -18,7 +18,7 @@ class ApiService
         $this->startTime = Carbon::now(); // Inicia o timestamp
     }
 
-    protected function makeApiRequest( string $email_cliente, string $token_cliente, int $page, string $url)
+    public function makeApiRequest( string $email_cliente, string $token_cliente, int $page, string $url)
     {
         // Fazer a requisição com a página específica
         $this->requestCount++; // Incrementa o contador de requisições
@@ -26,7 +26,7 @@ class ApiService
        return Http::withHeaders([
             'Content-Type' => 'application/json',
             'email' => $email_cliente,
-            'token' => $token_cliente, // Passa a página no body da requisição
+            'token' => $token_cliente,
         ])->get($url, [
             'pagina' => $page
         ]);

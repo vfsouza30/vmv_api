@@ -14,5 +14,6 @@ class Clientes extends Model
         'email_cliente',
         'token_cliente',
         'ativo',
+        'ultima_pagina_processada',
     ];
 }
