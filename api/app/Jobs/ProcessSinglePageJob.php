@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Log;
 use App\Services\ApiService;
 use App\Intefaces\LeadsRepositoryInterface;
 use App\Models\Leads;
+use App\Models\Clientes;
 
 class ProcessSinglePageJob implements ShouldQueue
 {
@@ -75,6 +76,7 @@ class ProcessSinglePageJob implements ShouldQueue
         
                 if (count($datas['dados']) > 0) {
                     $this->actionRequest($datas, $this->client->id);
+                    Clientes::find($this->client->id)->update(['ultima_pagina_processada' => $this->page]);
                 }
     
                 break;
@@ -108,9 +110,7 @@ class ProcessSinglePageJob implements ShouldQueue
 
     public function actionRequest($datas, $clientId)
     {   
-        dd(count($datas['dados']));
         foreach ($datas['dados'] as $data){
-            Log::info('referencia:', ['referencia' => $data['referencia']]);
             $leadData = [
                 'referencia' => $data['referencia'], 
                 'referencia_data' => $data['referencia_data'],
@@ -176,7 +176,7 @@ class ProcessSinglePageJob implements ShouldQueue
                 'clientes_id' => $clientId,
             ];
 
-            return Leads::create($leadData);
+            Leads::create($leadData);
         }
     }
 }

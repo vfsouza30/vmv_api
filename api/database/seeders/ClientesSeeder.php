@@ -71,8 +71,8 @@ class ClientesSeeder extends Seeder
             ],
             [
                 'nome_cliente' => 'EPH',
-                'email_cliente'=> 'vmv.ephincorporadora@gmail.com',
-                'token_cliente' => '56b0c56cc7c1979441a41f10c95b62f8d1a3e3bc',
+                'email_cliente'=> 'financeiro@vmv.group',
+                'token_cliente' => '5c6860f4b391ece1366a9dca2925f6c5849d0769',
                 'url_cliente' => 'https://eph.cvcrm.com.br/',
                 'ativo' => 'ativo',
                 'created_at'=> '2024-09-11 23:35:00',
@@ -128,7 +128,7 @@ class ClientesSeeder extends Seeder
                 'email_cliente'=> 'vmv.recel@gmail.com',
                 'token_cliente' => '7045833228f096052e6f53fa9cbef97d7c9fef53',
                 'url_cliente' => 'https://amazonia.cvcrm.com.br/',
-                'ativo' => 'ativo',
+                'ativo' => 'inativo',
                 'created_at'=> '2024-09-11 23:35:00',
                 'updated_at'=> '2024-09-11 23:35:00'
             ],
@@ -180,7 +180,7 @@ class ClientesSeeder extends Seeder
             [
                 'nome_cliente' => 'VICTA',
                 'email_cliente'=> 'vmv.victa@gmail.com',
-                'token_cliente' => '84102060b9f66fbf33a6843f1a09e249d35c43495',
+                'token_cliente' => '84102060b9f66fbf33a6843f1a09e249d35c4349',
                 'url_cliente' => 'https://victa.cvcrm.com.br/',
                 'ativo' => 'ativo',
                 'created_at'=> '2024-09-11 23:35:00',
@@ -189,7 +189,7 @@ class ClientesSeeder extends Seeder
             [
                 'nome_cliente' => 'VL CONSTRUTORA',
                 'email_cliente'=> 'vmv.vlconstrutora@gmail.com',
-                'token_cliente' => '7bb4da4ea3a17730c2094aa2818581a4e2546e775',
+                'token_cliente' => '7bb4da4ea3a17730c2094aa2818581a4e2546e77',
                 'url_cliente' => 'https://vlconstrutora.cvcrm.com.br/',
                 'ativo' => 'ativo',
                 'created_at'=> '2024-09-11 23:35:00',

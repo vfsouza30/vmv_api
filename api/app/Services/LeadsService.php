@@ -92,7 +92,6 @@ class LeadsService
             }
             
             $response = $this->makeApiRequest($cliente->email_cliente, $cliente->token_cliente, $currentPage, $urlCompleted);
-            dd($response);
 
             if($response->failed()) {
                 throw new ApiRequestException('Failed to fetch leads from API.');

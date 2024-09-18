@@ -86,9 +86,8 @@ class ProcessLeadsPageJob implements ShouldQueue
             }
 
             Bus::batch($jobs)->then(function (Batch $batch) use ($client, $endPage) {
-                $client->ultima_pagina_processada = $endPage;
-                $client->save();
                 Log::info('Lote realizado', ['cliente' => $client, 'end_page' => $endPage]);
+
             })->dispatch();
 
             $page = $endPage + 1;

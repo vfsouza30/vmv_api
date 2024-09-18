@@ -28,20 +28,21 @@ class DispatchLeadsJob extends Command
     {
         log::info('Iniciando o despacho de Leads');
         $clients = $this->clientesRepository->getClients();
-        $chunks_clients = array_chunk($clients->toArray(), $this->batchSize);
+       // $chunks_clients = array_chunk($clients->toArray(), $this->batchSize);
 
         $attempts = 0;
         $initial_clients = 1;
         $final_clients = 10;
 
-        foreach ($chunks_clients as $chunk) {
+        //foreach ($chunks_clients as $chunk) {
+        $clients->chunck(10, function ($chuncks_client) use ($initial_clients, $final_clients, $attempts){
+
             $jobs = [];
             $attempts++;
             $margin = $initial_clients * $attempts . ' ha ' . $final_clients * $attempts;
 
-            foreach ($chunk as $client) {
-                $client_object = (object) $client;
-                $jobs[] = new ProcessLeadsPageJob($client_object);
+            foreach ($chuncks_client as $client) {
+                $jobs[] = new ProcessLeadsPageJob($client);
             }
 
             Bus::batch($jobs)->then(function (Batch $batch) {
@@ -56,6 +57,6 @@ class DispatchLeadsJob extends Command
                 ]);
 
             })->dispatch();
-        }
+        });
     }
 }
