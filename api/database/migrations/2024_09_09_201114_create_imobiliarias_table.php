@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('imobiliarias', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45)->nullable();
-            $table->string('referencia_data', 45)->nullable();
-            $table->string('ativo', 45)->nullable();
+            $table->longText('referencia')->nullable();
+            $table->longText('referencia_data')->nullable();
+            $table->longText('ativo')->nullable();
             $table->integer('idimobiliaria')->nullable();
-            $table->string('data_cad', 45)->nullable();
-            $table->string('avatar_nome', 200)->nullable();
-            $table->string('gerente_nome', 200)->nullable();
-            $table->string('gerente_cpf', 45)->nullable();
-            $table->string('gerente_telefone', 45)->nullable();
-            $table->string('gerente_celular', 45)->nullable();
-            $table->string('gerente_email', 200)->nullable();
-            $table->string('sigla', 45)->nullable();
-            $table->string('codigointerno', 45)->nullable();
+            $table->longText('data_cad')->nullable();
+            $table->longText('avatar_nome')->nullable();
+            $table->longText('gerente_nome')->nullable();
+            $table->longText('gerente_cpf')->nullable();
+            $table->longText('gerente_telefone')->nullable();
+            $table->longText('gerente_celular')->nullable();
+            $table->longText('gerente_email')->nullable();
+            $table->longText('sigla')->nullable();
+            $table->longText('codigointerno')->nullable();
             $table->longText('observacoes')->nullable();
 
             $table->unsignedBigInteger('clientes_id');

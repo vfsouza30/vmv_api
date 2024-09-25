@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('leads_conversoes', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45)->nullable();
-            $table->string('referencia_data', 45)->nullable();
-            $table->string('ativo', 45)->nullable();
+            $table->longText('referencia')->nullable();
+            $table->longText('referencia_data')->nullable();
+            $table->longText('ativo')->nullable();
             $table->integer('idlead_conversao')->nullable();
             $table->integer('idlead')->nullable();
-            $table->string('nome', 200)->nullable();
-            $table->string('email', 200)->nullable();
-            $table->string('telefone', 45)->nullable();
-            $table->string('origem', 45)->nullable();
-            $table->string('origem_conversao', 45)->nullable();
-            $table->string('conversao', 45)->nullable();
-            $table->string('data_cad', 45)->nullable();
-            $table->string('midia', 45)->nullable();
-            $table->string('midia_conversao', 45)->nullable();
+            $table->longText('nome')->nullable();
+            $table->longText('email')->nullable();
+            $table->longText('telefone')->nullable();
+            $table->longText('origem')->nullable();
+            $table->longText('origem_conversao')->nullable();
+            $table->longText('conversao')->nullable();
+            $table->longText('data_cad')->nullable();
+            $table->longText('midia')->nullable();
+            $table->longText('midia_conversao')->nullable();
             $table->integer('gestor')->nullable();
             $table->integer('gestor_ultimo')->nullable();
             $table->integer('empreendimento_ultimo')->nullable();

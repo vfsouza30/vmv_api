@@ -13,26 +13,26 @@ return new class extends Migration
     {
         Schema::create('leads_visitas', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45)->nullable();
-            $table->string('referencia_data', 45)->nullable();
+            $table->longText('referencia')->nullable();
+            $table->longText('referencia_data')->nullable();
             $table->integer('idtarefa')->nullable();
             $table->integer('idinteracao')->nullable();
             $table->integer('idlead')->nullable();
-            $table->string('data_cad', 45)->nullable();
-            $table->string('data', 45)->nullable();
+            $table->longText('data_cad')->nullable();
+            $table->longText('data')->nullable();
             $table->integer('idresponsavel')->nullable();
-            $table->string('responsavel', 200)->nullable();
-            $table->string('tipo_responsavel', 45)->nullable();
-            $table->string('situacao', 45)->nullable();
-            $table->string('tipo_interacao', 45)->nullable();
-            $table->string('idtipo_visita', 45)->nullable();
-            $table->string('nome_tipo_visita', 45)->nullable();
-            $table->string('funcionalidade', 45)->nullable();
-            $table->string('data_conclusao', 45)->nullable();
-            $table->string('pdv', 200)->nullable();
-            $table->string('visita_virtual', 45)->nullable();
+            $table->longText('responsavel')->nullable();
+            $table->longText('tipo_responsavel')->nullable();
+            $table->longText('situacao')->nullable();
+            $table->longText('tipo_interacao')->nullable();
+            $table->longText('idtipo_visita')->nullable();
+            $table->longText('nome_tipo_visita')->nullable();
+            $table->longText('funcionalidade')->nullable();
+            $table->longText('data_conclusao')->nullable();
+            $table->longText('pdv')->nullable();
+            $table->longText('visita_virtual')->nullable();
             $table->integer('idempreendimento')->nullable();
-            $table->string('nome_empreendimento', 200)->nullable();
+            $table->longText('nome_empreendimento')->nullable();
 
             $table->unsignedBigInteger('clientes_id');
             $table->timestamps();

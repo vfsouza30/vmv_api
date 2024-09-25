@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('leads', function (Blueprint $table) {
             // Altere o tipo da coluna
-            $table->string('situacao', 200)->change();
+            $table->longText('situacao')->change();
             $table->longText('conversao')->change();
-            $table->string('renda_familiar', 45)->change();
+            $table->longText('renda_familiar')->change();
             $table->longText('tags')->change();
         });
     }

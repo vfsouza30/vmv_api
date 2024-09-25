@@ -19,7 +19,8 @@ class ApiService
     }
 
     public function makeApiRequest( string $email_cliente, string $token_cliente, int $page, string $url)
-    {
+    {   
+        $this->throttleRequest(); // Verifica e aplica o throttling
         // Fazer a requisição com a página específica
         $this->requestCount++; // Incrementa o contador de requisições
 
@@ -27,8 +28,10 @@ class ApiService
             'Content-Type' => 'application/json',
             'email' => $email_cliente,
             'token' => $token_cliente,
-        ])->get($url, [
-            'pagina' => $page
+        ])->timeout(90)->get($url, [
+            'pagina' => $page,
+            'a_partir_data_referencia' => '2024-09-01 00:00:01',
+            'ate_data_referencia' => '2024-09-30 23:59:59'
         ]);
 
     }

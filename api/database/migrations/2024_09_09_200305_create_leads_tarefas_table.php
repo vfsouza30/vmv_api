@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('leads_tarefas', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45)->nullable();
-            $table->string('referencia_data', 45)->nullable();
+            $table->longText('referencia')->nullable();
+            $table->longText('referencia_data')->nullable();
             $table->integer('idtarefa')->nullable();
             $table->integer('idinteracao')->nullable();
             $table->integer('idlead')->nullable();
-            $table->string('data_cad', 45)->nullable();
-            $table->string('data', 45)->nullable();
+            $table->longText('data_cad')->nullable();
+            $table->longText('data')->nullable();
             $table->integer('idresponsavel')->nullable();
-            $table->string('responsavel', 200)->nullable();
-            $table->string('tipo_responsavel', 45)->nullable();
-            $table->string('situacao', 45)->nullable();
-            $table->string('tipo_interacao', 45)->nullable();
-            $table->string('funcionalidade', 45)->nullable();
+            $table->longText('responsavel')->nullable();
+            $table->longText('tipo_responsavel')->nullable();
+            $table->longText('situacao')->nullable();
+            $table->longText('tipo_interacao')->nullable();
+            $table->longText('funcionalidade')->nullable();
             $table->integer('idempreendimento')->nullable();
-            $table->string('nome_empreendimento', 200)->nullable();
+            $table->longText('nome_empreendimento')->nullable();
 
 
             $table->unsignedBigInteger('clientes_id');

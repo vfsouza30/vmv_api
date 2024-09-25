@@ -33,6 +33,8 @@ class ProcessLeadsPageJob implements ShouldQueue
         $this->apiService = new ApiService();
         $this->sufix_url = env('API_URL_SUFFIX', 'api/v1/cvdw');
         $this->batchSize = env('BATCH_SIZE', 60);
+
+        $this->onQueue('process-leads-page-job');
     }
 
     /**
@@ -55,7 +57,7 @@ class ProcessLeadsPageJob implements ShouldQueue
     public function processClient($client, $urlCompleted): void
     {
 
-        $page = $client->ultima_pagina_processada + 1;
+        $page = 1;
         $totalPages = $this->getTotalPages($client, $urlCompleted);
 
         if ($page < 1) {
@@ -82,7 +84,7 @@ class ProcessLeadsPageJob implements ShouldQueue
             $jobs = [];
 
             for ($currentPage = $page; $currentPage <= $endPage; $currentPage++) {
-                $jobs[] = new ProcessSinglePageJob($client, $urlCompleted, $currentPage);
+                $jobs[] = new ProcessSinglePageJob($client, $urlCompleted, $currentPage, 'leads');
             }
 
             Bus::batch($jobs)->then(function (Batch $batch) use ($client, $endPage) {

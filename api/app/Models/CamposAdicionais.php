@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class CamposAdicionais extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'referencia', 
+        'referencia_data',
+        'ativo',
+        'idcampo',
+        'campo_nome',
+        'idfuncionalidade',
+        'funcionalidade',
+        'valor',
+        'data_cad',
+        'data_modificacao',
+        'clientes_id',
+    ];
 }

@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('comissoes', function (Blueprint $table) {
             $table->id();
-            $table->string('referencia', 45)->nullable();
-            $table->string('referencia_data', 45)->nullable();
-            $table->string('ativo', 45)->nullable();
+            $table->longText('referencia')->nullable();
+            $table->longText('referencia_data')->nullable();
+            $table->longText('ativo')->nullable();
             $table->integer('idcomissao')->nullable();
-            $table->string('situacao', 45)->nullable();
+            $table->longText('situacao')->nullable();
             $table->integer('idsituacao')->nullable();
             $table->integer('idreserva')->nullable();
-            $table->string('corretor', 200)->nullable();
-            $table->string('imobiliaria', 200)->nullable();
-            $table->string('empreendimento', 200)->nullable();
-            $table->string('bloco', 45)->nullable();
-            $table->string('etapa', 45)->nullable();
-            $table->string('unidade', 45)->nullable();
-            $table->string('regiao', 45)->nullable();
-            $table->string('cliente', 200)->nullable();
-            $table->string('cep_cliente', 45)->nullable();
+            $table->longText('corretor')->nullable();
+            $table->longText('imobiliaria')->nullable();
+            $table->longText('empreendimento')->nullable();
+            $table->longText('bloco')->nullable();
+            $table->longText('etapa')->nullable();
+            $table->longText('unidade')->nullable();
+            $table->longText('regiao')->nullable();
+            $table->longText('cliente')->nullable();
+            $table->longText('cep_cliente')->nullable();
 
             $table->unsignedBigInteger('clientes_id');
             $table->timestamps();

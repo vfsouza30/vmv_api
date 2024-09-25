@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Log;
 use Throwable;
+use App\Models\Clientes;
 
 class DispatchLeadsJob extends Command
 {
@@ -27,21 +28,25 @@ class DispatchLeadsJob extends Command
     public function handle()
     {
         log::info('Iniciando o despacho de Leads');
+
+        /* Voltar quando for fazer dos demais clientes*/
         $clients = $this->clientesRepository->getClients();
-       // $chunks_clients = array_chunk($clients->toArray(), $this->batchSize);
 
         $attempts = 0;
         $initial_clients = 1;
         $final_clients = 10;
-
-        //foreach ($chunks_clients as $chunk) {
-        $clients->chunck(10, function ($chuncks_client) use ($initial_clients, $final_clients, $attempts){
-
+        
+        //$client = Clientes::find(1);
+        
+        /* Voltar quando for fazer dos demais clientes*/
+        
+        foreach ($clients->chunk(10) as $chunks_client) {
             $jobs = [];
             $attempts++;
             $margin = $initial_clients * $attempts . ' ha ' . $final_clients * $attempts;
 
-            foreach ($chuncks_client as $client) {
+            foreach ($chunks_client as $client) {
+
                 $jobs[] = new ProcessLeadsPageJob($client);
             }
 
@@ -56,7 +61,7 @@ class DispatchLeadsJob extends Command
                     'margem clientes' => $margin
                 ]);
 
-            })->dispatch();
-        });
+            })->name('ProcessLeadsPageJob')->dispatch();
+        }
     }
 }
