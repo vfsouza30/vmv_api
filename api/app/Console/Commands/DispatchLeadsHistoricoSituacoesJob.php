@@ -13,7 +13,7 @@ use App\Models\Clientes;
 
 class DispatchLeadsHistoricoSituacoesJob extends Command
 {
-    protected $signature = 'leadsHistoricoSituacoes:process';
+    protected $signature = 'leads-historico-situacoes:process';
     protected $description = 'Dispatch the ProcessLeadsHistoricoSituacoesPage job';
 
     protected $clientesRepository;
