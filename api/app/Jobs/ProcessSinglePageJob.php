@@ -64,7 +64,7 @@ class ProcessSinglePageJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('Inicia Request', [$this->page]);
+        Log::info('Inicia Request', ['page' => $this->page, 'table' => $this->table]);
 
         $attempts = 0;
         $maxAttempts = 5;
@@ -548,10 +548,10 @@ class ProcessSinglePageJob implements ShouldQueue
                 'nome_cliente' => $data['nome_cliente'],
                 'email_cliente' => $data['email_cliente'],
                 'tempo_resposta' => $data['tempo_resposta'],
-                'encerrado_primeiro_contrato' => $data['encerrado_primeiro_contrato'],
+                'encerrado_primeiro_contato' => $data['encerrado_primeiro_contato'],
                 'humor_cliente' => $data['humor_cliente'],
                 'idcanal' => $data['idcanal'],
-                'atendimento_vinculado' => $data['atendimento_vinculado'],
+                'atendimentos_vinculados' => $data['atendimentos_vinculados'],
                 'previsao_conclusao' => $data['previsao_conclusao'],
                 'idlead' => $data['idlead'],
                 'ativo_painel' => $data['ativo_painel'],
@@ -577,7 +577,7 @@ class ProcessSinglePageJob implements ShouldQueue
                 'idclassificacao' => $data['idclassificacao'],
                 'classificacao' => $data['classificacao'],
                 'idtipo' => $data['idtipo'],
-                'tipoa' => $data['tipoa'],
+                'tipo' => $data['tipo'],
                 'imobiliaria' => $data['imobiliaria'],
                 'corretor' => $data['corretor'],
                 'idsituacao' => $data['idsituacao'],
@@ -592,7 +592,7 @@ class ProcessSinglePageJob implements ShouldQueue
                 'times' => $data['times'],
                 'origem' => $data['origem'],
                 'quantidade_mensagens' => $data['quantidade_mensagens'],
-                'quantidade_iteracoes' => $data['quantidade_iteracoes'],
+                'quantidade_interacoes' => $data['quantidade_interacoes'],
                 'data_modificacao' => $data['data_modificacao'],
                 'clientes_id' => $clientId,
             ];

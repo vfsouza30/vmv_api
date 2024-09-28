@@ -25,7 +25,7 @@ return new class extends Migration
             $table->longText('nome_cliente')->nullable();
             $table->longText('email_cliente')->nullable();
             $table->integer('tempo_resposta')->nullable();
-            $table->longText('encerrado_primeiro_contrato')->nullable();
+            $table->longText('encerrado_primeiro_contato')->nullable();
             $table->longText('humor_cliente')->nullable();
             $table->integer('idcanal')->nullable();
             $table->longText('atendimento_vinculado')->nullable();
