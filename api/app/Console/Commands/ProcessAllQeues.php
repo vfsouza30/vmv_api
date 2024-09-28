@@ -36,6 +36,7 @@ class ProcessAllQueues extends Command
             'imobiliarias:process',
             'pre-cadastro:process',
             'repasse:process',
+            'reservas:process'
         ];
 
         foreach ($commands as $command) {

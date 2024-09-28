@@ -34,11 +34,12 @@ class Kernel extends ConsoleKernel
         $schedule->command('leads-tarefas:process')->everyMinute()->runInBackground();
         $schedule->command('imobiliarias:process')->everyMinute()->runInBackground();
         $schedule->command('pre-cadastro:process')->everyMinute()->runInBackground();
-        $schedule->command('repasse:process')->everyMinute()->runInBackground();*/
+        $schedule->command('repasse:process')->everyMinute()->runInBackground();
+        $schedule->command('reservas:process')->runInBackground();*/
 
-        $schedule->command('queue:processall')->dailyAt('00:00')->runInBackground();
+        //$schedule->command('queue:processall')->dailyAt('00:00')->runInBackground();
         
-        $schedule->command('queue:work --max-jobs=10 --stop-when-empty')->everyMinute()->runInBackground();
+        //$schedule->command('queue:work --max-jobs=10 --stop-when-empty')->everyMinute()->runInBackground();
     }
 
     /**

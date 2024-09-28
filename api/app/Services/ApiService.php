@@ -24,14 +24,20 @@ class ApiService
         // Fazer a requisição com a página específica
         $this->requestCount++; // Incrementa o contador de requisições
 
+        $startOfYesterday = (new DateTime('yesterday'))->setTime(0, 0, 1);
+        $endOfToday = new DateTime('today');
+
+        $starOfYesterdayFormat = $startOfYesterday->format('Y-m-d H:i:s'); // Exemplo de saída: 2023-10-04 00:00:01
+        $endOfTodayFormat = $endOfToday->format('Y-m-d H:i:s');  
+
        return Http::withHeaders([
             'Content-Type' => 'application/json',
             'email' => $email_cliente,
             'token' => $token_cliente,
         ])->timeout(90)->get($url, [
             'pagina' => $page,
-            'a_partir_data_referencia' => '2024-09-01 00:00:01',
-            'ate_data_referencia' => '2024-09-30 23:59:59'
+            'a_partir_data_referencia' => $starOfYesterdayFormat,
+            'ate_data_referencia' => $endOfTodayFormat
         ]);
 
     }
