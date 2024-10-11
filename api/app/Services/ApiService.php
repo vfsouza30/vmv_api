@@ -6,6 +6,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use App\Exceptions\ApiRequestException;
 use Carbon\Carbon;
+use DateTime;
 
 class ApiService
 {
@@ -18,7 +19,7 @@ class ApiService
         $this->startTime = Carbon::now(); // Inicia o timestamp
     }
 
-    public function makeApiRequest( string $email_cliente, string $token_cliente, int $page, string $url)
+    public function makeApiRequest( string $email_cliente, string $token_cliente, int $page, string $url, int $cvio = 0)
     {   
         $this->throttleRequest(); // Verifica e aplica o throttling
         // Fazer a requisição com a página específica
@@ -30,15 +31,24 @@ class ApiService
         $starOfYesterdayFormat = $startOfYesterday->format('Y-m-d H:i:s'); // Exemplo de saída: 2023-10-04 00:00:01
         $endOfTodayFormat = $endOfToday->format('Y-m-d H:i:s');  
 
-       return Http::withHeaders([
-            'Content-Type' => 'application/json',
-            'email' => $email_cliente,
-            'token' => $token_cliente,
-        ])->timeout(90)->get($url, [
-            'pagina' => $page,
-            'a_partir_data_referencia' => $starOfYesterdayFormat,
-            'ate_data_referencia' => $endOfTodayFormat
-        ]);
+        if($cvio == 0) {
+            return Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'email' => $email_cliente,
+                'token' => $token_cliente,
+            ])->timeout(90)->get($url, [
+                'pagina' => $page,
+                'a_partir_data_referencia' => $starOfYesterdayFormat,
+                'ate_data_referencia' => $endOfTodayFormat
+            ]);
+        }else{
+            return Http::withHeaders([
+                'Content-Type' => 'application/json',
+                'email' => $email_cliente,
+                'token' => $token_cliente,
+            ])->timeout(90)->get($url);
+        }
+       
 
     }
 

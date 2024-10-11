@@ -20,10 +20,10 @@ return new class extends Migration
             $table->longText('idempreendimento_int')->nullable();
             $table->longText('nome_empreendimento')->nullable();
             $table->integer('idetapa')->nullable();
-            $table->integer('idetapa_int')->nullable();
+            $table->longText('idetapa_int')->nullable();
             $table->longText('etapa')->nullable();
             $table->integer('idbloco')->nullable();
-            $table->integer('idbloco_int')->nullable();
+            $table->longText('idbloco_int')->nullable();
             $table->longText('bloco')->nullable();
             $table->longText('nome')->nullable();
             $table->longText('area_privativa')->nullable();

@@ -10,6 +10,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 use App\Models\Clientes;
+use App\Services\WorkFlowService;
 
 class DispatchRepasseJob extends Command
 {
@@ -18,11 +19,14 @@ class DispatchRepasseJob extends Command
 
     protected $clientesRepository;
     protected $batchSize = 10;
+    
+    protected $workFlowService;
 
     public function __construct(ClientesRepositoryInterface $clientesRepository)
     {
         parent::__construct();
         $this->clientesRepository = $clientesRepository;
+        $this->workFlowService = new WorkFlowService();
     }
 
     public function handle()
@@ -45,7 +49,7 @@ class DispatchRepasseJob extends Command
             $margin = $initial_clients * $attempts . ' ha ' . $final_clients * $attempts;
 
             foreach ($chunks_client as $client) {
-
+                
                 $jobs[] = new ProcessRepassePageJob($client);
             }
 
@@ -61,6 +65,10 @@ class DispatchRepasseJob extends Command
                 ]);
 
             })->name('ProcessRepassePageJob')->dispatch();
+
+            foreach ($chunks_client as $client) {
+                $this->workFlowService->processWorkflow($client->id, 'repasses');
+            }
         }
     }
 }

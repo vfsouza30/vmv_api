@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Empreendimento;
+use App\Models\Workflow;
 
 class ProcessAllQueues extends Command
 {
@@ -16,6 +18,8 @@ class ProcessAllQueues extends Command
 
     public function handle()
     {
+        Empreendimento::truncate();
+        Workflow::truncate();
         $commands = [
             'leads:process',
             'vendas:process',
@@ -36,7 +40,8 @@ class ProcessAllQueues extends Command
             'imobiliarias:process',
             'pre-cadastro:process',
             'repasse:process',
-            'reservas:process'
+            'reservas:process',
+            'empreendimentos:process'
         ];
 
         foreach ($commands as $command) {

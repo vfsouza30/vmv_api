@@ -32,6 +32,8 @@ use App\Models\LeadsTarefas;
 use App\Models\Imobiliarias;
 use App\Models\PreCadastro;
 use App\Models\Repasse;
+use App\Models\Empreendimento;
+use App\Models\Workflow;
 
 use App\Models\Clientes;
 
@@ -73,80 +75,84 @@ class ProcessSinglePageJob implements ShouldQueue
         while ($attempts < $maxAttempts){
 
             try {
-
-                $response = $this->apiService->makeApiRequest(
-                    $this->client->email_cliente, 
-                    $this->client->token_cliente, 
-                    $this->page, 
-                    $this->urlCompleted
-                );
+                    
+                    $response = $this->apiService->makeApiRequest(
+                        $this->client->email_cliente, 
+                        $this->client->token_cliente, 
+                        $this->page, 
+                        $this->urlCompleted,
+                        $this->table == 'empreendimento' ? 1 : 0
+                    );                    
     
                 if ($response->status() !== 200) {
                     throw new \Exception('Código de status inválido: ' . $response->status());
                 }
     
                 $datas = $response->json();
-    
-                if (!isset($datas['dados']) || !is_array($datas['dados']) || !isset($datas['total_de_paginas']) || !is_int($datas['total_de_paginas'])) {
+
+                if (($this->table !== 'empreendimento') && (!isset($datas['dados']) || !is_array($datas['dados']) || !isset($datas['total_de_paginas']) || !is_int($datas['total_de_paginas']))) {
                     throw new \Exception('Estrutura de resposta inválida');
                 }
-    
+                
                 Log::info('Finalizou Request', [
-                    'Quantidade de dados' => count($datas['dados']),
+                    'Quantidade de dados' =>  $this->table == 'empreendimento' ? 1 : count($datas['dados']),
                     'Pagina Atual' => $this->page, 
-                    'Total de Paginas' => $datas['total_de_paginas']
+                    'Total de Paginas' => $this->table == 'empreendimento' ? 1 : $datas['total_de_paginas']
                 ]);
-        
-                if (count($datas['dados']) > 0) {
-                    if($this->table == 'leads'){
-                        $this->actionRequestLeads($datas, $this->client->id);
-                    }else if($this->table == 'reservas'){
-                        $this->actionRequestReservas($datas, $this->client->id);
-                    }else if($this->table == 'leadsVisita'){
-                        $this->actionRequestLeadsVisita($datas, $this->client->id);
-                    }else if($this->table == 'vendas'){
-                        $this->actionRequestVendas($datas, $this->client->id);
-                    }else if ($this->table == 'corretores'){
-                        $this->actionRequestCorretores($datas, $this->client->id);
-                    }else if($this->table == 'unidades'){
-                        $this->actionRequestUnidades($datas, $this->client->id);
-                    }else if ($this->table == 'pessoas'){
-                        $this->actionRequestPessoas($datas, $this->client->id);
-                    }else if($this->table == 'distratos'){
-                        $this->actionRequestDistratos($datas, $this->client->id);
-                    }else if ($this->table == 'atendimentos'){
-                        $this->actionRequestAtendimentos($datas, $this->client->id);
-                    }else if($this->table == 'leadsHistoricoSituacoes'){
-                        $this->actionRequestLeadsHistoricoSituacoes($datas, $this->client->id);
-                    }else if($this->table == 'comissoes'){
-                        $this->actionRequestComissoes($datas, $this->client->id);
-                    }else if($this->table == 'leadsInteracoes'){
-                        $this->actionRequestLeadsInteracoes($datas, $this->client->id);
-                    }else if($this->table == 'camposAdicionais'){
-                        $this->actionRequestCamposAdicionais($datas, $this->client->id);
-                    }else if($this->table == 'reservasFlags'){
-                        $this->actionRequestReservasFlags($datas, $this->client->id);
-                    }else if($this->table == 'assistencias'){
-                        $this->actionRequestAssistencias($datas, $this->client->id);
-                    }else if($this->table == 'leadsConversoes'){
-                        $this->actionRequestLeadsConversoes($datas, $this->client->id);
-                    }else if($this->table == 'leadsTarefas'){
-                        $this->actionRequestLeadsTerafas($datas, $this->client->id);
-                    }else if($this->table == 'imobiliarias'){
-                        $this->actionRequestImobiliarias($datas, $this->client->id);
-                    }else if($this->table == 'preCadastro'){
-                        $this->actionRequestPreCadastro($datas, $this->client->id);
-                    }else if($this->table == 'repasses'){
-                        $this->actionRequestRepasse($datas, $this->client->id);
-                    }else{
-                        Log::warning('Tabela não encontrada', [
-                            'cliente_id' => $this->client->id,
-                            'url' => $this->urlCompleted,
-                            'pagina' => $this->page,
-                            'tabela' => $this->table
-                        ]);
+                if($this->table !== 'empreendimento'){
+                    if (count($datas['dados']) > 0) {
+                        if($this->table == 'leads'){
+                            $this->actionRequestLeads($datas, $this->client->id);
+                        }else if($this->table == 'reservas'){
+                            $this->actionRequestReservas($datas, $this->client->id);
+                        }else if($this->table == 'leadsVisita'){
+                            $this->actionRequestLeadsVisita($datas, $this->client->id);
+                        }else if($this->table == 'vendas'){
+                            $this->actionRequestVendas($datas, $this->client->id);
+                        }else if ($this->table == 'corretores'){
+                            $this->actionRequestCorretores($datas, $this->client->id);
+                        }else if($this->table == 'unidades'){
+                            $this->actionRequestUnidades($datas, $this->client->id);
+                        }else if ($this->table == 'pessoas'){
+                            $this->actionRequestPessoas($datas, $this->client->id);
+                        }else if($this->table == 'distratos'){
+                            $this->actionRequestDistratos($datas, $this->client->id);
+                        }else if ($this->table == 'atendimentos'){
+                            $this->actionRequestAtendimentos($datas, $this->client->id);
+                        }else if($this->table == 'leadsHistoricoSituacoes'){
+                            $this->actionRequestLeadsHistoricoSituacoes($datas, $this->client->id);
+                        }else if($this->table == 'comissoes'){
+                            $this->actionRequestComissoes($datas, $this->client->id);
+                        }else if($this->table == 'leadsInteracoes'){
+                            $this->actionRequestLeadsInteracoes($datas, $this->client->id);
+                        }else if($this->table == 'camposAdicionais'){
+                            $this->actionRequestCamposAdicionais($datas, $this->client->id);
+                        }else if($this->table == 'reservasFlags'){
+                            $this->actionRequestReservasFlags($datas, $this->client->id);
+                        }else if($this->table == 'assistencias'){
+                            $this->actionRequestAssistencias($datas, $this->client->id);
+                        }else if($this->table == 'leadsConversoes'){
+                            $this->actionRequestLeadsConversoes($datas, $this->client->id);
+                        }else if($this->table == 'leadsTarefas'){
+                            $this->actionRequestLeadsTerafas($datas, $this->client->id);
+                        }else if($this->table == 'imobiliarias'){
+                            $this->actionRequestImobiliarias($datas, $this->client->id);
+                        }else if($this->table == 'preCadastro'){
+                            $this->actionRequestPreCadastro($datas, $this->client->id);
+                        }else if($this->table == 'repasses'){
+                            $this->actionRequestRepasse($datas, $this->client->id);
+                        }else{
+                            Log::warning('Tabela não encontrada', [
+                                'cliente_id' => $this->client->id,
+                                'url' => $this->urlCompleted,
+                                'pagina' => $this->page,
+                                'tabela' => $this->table
+                            ]);
+                        }
+                        //Clientes::find($this->client->id)->update(['ultima_pagina_processada' => $this->page]);
                     }
-                    //Clientes::find($this->client->id)->update(['ultima_pagina_processada' => $this->page]);
+                } else {
+                        $this->actionRequestEmpreendimento($datas, $this->client->id);
                 }
     
                 break;
@@ -646,7 +652,8 @@ class ProcessSinglePageJob implements ShouldQueue
         }  
     }
 
-    public function actionRequestLeadsInteracoes($datas, $clientId){
+    public function actionRequestLeadsInteracoes($datas, $clientId)
+    {
         foreach ($datas['dados'] as $data){
             $leadsInteracoes = [
                 'referencia' => $data['referencia'], 
@@ -979,6 +986,40 @@ class ProcessSinglePageJob implements ShouldQueue
                 'clientes_id' => $clientId,
             ];
             Repasse::create($repasse);
+        }
+    }
+
+    public function actionRequestEmpreendimento($datas, $clientId)
+    {
+        foreach ($datas as $data){
+            $empreendimento = [
+                'idempreendimento' => $data['idempreendimento'],
+                'idempreendimento_int' => $data['idempreendimento_int'],
+                'nome' => $data['nome'],
+                'regiao' => $data['regiao'],
+                'cidade' => $data['cidade'],
+                'estado' => $data['estado'],
+                'bairro' => $data['bairro'],
+                'endereco_emp' => $data['endereco_emp'],
+                'numero' => $data['numero'],
+                'logradouro' => $data['logradouro'],
+                'cep' => $data['cep'],
+                'endereco' => $data['endereco'],
+                'idempresa' => $data['idempresa'],
+                'sigla' => $data['sigla'],
+                'logo' => $data['logo'],
+                'foto_listagem' => $data['foto_listagem'],
+                'foto' => $data['foto'],
+                'app_exibir' => $data['app_exibir'],
+                'app_cor_background' => $data['app_cor_background'],
+                'data_entrega' => $data['data_entrega'],
+                'situacao_obra' => json_encode($data['situacao_obra']),
+                'situacao_comercial' => json_encode($data['situacao_comercial']),
+                'tipo_empreendimento' => json_encode($data['tipo_empreendimento']),
+                'segmento' => json_encode($data['segmento']),
+                'clientes_id' => $clientId,
+            ];
+            Empreendimento::create($empreendimento);
         }
     }
 }

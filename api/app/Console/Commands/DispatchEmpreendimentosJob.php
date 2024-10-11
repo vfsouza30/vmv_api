@@ -3,35 +3,32 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Jobs\ProcessPreCadastroPageJob;
+use App\Jobs\ProcessEmpreendimentosJob;
 use App\Interfaces\ClientesRepositoryInterface;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 use App\Models\Clientes;
-use App\Services\WorkFlowService;
+use App\Models\Empreendimento;
 
-class DispatchPreCadastroJob extends Command
+class DispatchEmpreendimentosJob extends Command
 {
-    protected $signature = 'pre-cadastro:process';
-    protected $description = 'Dispatch the ProcessPreCadastroPage job';
+    protected $signature = 'empreendimentos:process';
+    protected $description = 'Dispatch the ProcessEmpreendimentos job';
 
     protected $clientesRepository;
     protected $batchSize = 10;
-
-    protected $workFlowService;
 
     public function __construct(ClientesRepositoryInterface $clientesRepository)
     {
         parent::__construct();
         $this->clientesRepository = $clientesRepository;
-        $this->workFlowService = new WorkFlowService();
     }
 
     public function handle()
     {
-        log::info('Iniciando o despacho de Pre Cadastro');
+        log::info('Iniciando o despacho de Empreendimentos');
 
         /* Voltar quando for fazer dos demais clientes*/
         $clients = $this->clientesRepository->getClients();
@@ -50,8 +47,8 @@ class DispatchPreCadastroJob extends Command
             $margin = $initial_clients * $attempts . ' ha ' . $final_clients * $attempts;
 
             foreach ($chunks_client as $client) {
-                
-                $jobs[] = new ProcessPreCadastroPageJob($client);
+
+                $jobs[] = new ProcessEmpreendimentosJob($client);
             }
 
             Bus::batch($jobs)->then(function (Batch $batch) {
@@ -65,11 +62,7 @@ class DispatchPreCadastroJob extends Command
                     'margem clientes' => $margin
                 ]);
 
-            })->name('ProcessPreCadastroPageJob')->dispatch();
-
-            foreach ($chunks_client as $client) {
-                $this->workFlowService->processWorkflow($client->id, 'precadastros');
-            }
+            })->name('ProcessEmpreendimentosJob')->dispatch();
         }
     }
 }
