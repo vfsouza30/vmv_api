@@ -17,3 +17,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+process_all_queues.bat
+queue_retry.bat
+queue_work.bat
