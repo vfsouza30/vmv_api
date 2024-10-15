@@ -38,6 +38,7 @@ class ApiService
                 'token' => $token_cliente,
             ])->timeout(90)->get($url, [
                 'pagina' => $page,
+                'registros_por_pagina' => 500,
                 'a_partir_data_referencia' => $starOfYesterdayFormat,
                 'ate_data_referencia' => $endOfTodayFormat
             ]);
