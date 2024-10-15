@@ -34,6 +34,7 @@ use App\Models\PreCadastro;
 use App\Models\Repasse;
 use App\Models\Empreendimento;
 use App\Models\Workflow;
+use App\Models\LeadsWorkflowTempo;
 
 use App\Models\Clientes;
 
@@ -141,6 +142,8 @@ class ProcessSinglePageJob implements ShouldQueue
                             $this->actionRequestPreCadastro($datas, $this->client->id);
                         }else if($this->table == 'repasses'){
                             $this->actionRequestRepasse($datas, $this->client->id);
+                        }else if($this->table == 'leads/workflow/tempo'){
+                            $this->actionRequestLeadsWorkflowTempo($datas, $this->client->id);
                         }else{
                             Log::warning('Tabela não encontrada', [
                                 'cliente_id' => $this->client->id,
@@ -1020,6 +1023,26 @@ class ProcessSinglePageJob implements ShouldQueue
                 'clientes_id' => $clientId,
             ];
             Empreendimento::create($empreendimento);
+        }
+    }
+
+    public function actionRequestLeadsWorkflowTempo($datas, $clientId)
+    {
+        foreach ($datas['dados'] as $data){
+            $LeadsWorkflowTempo = [
+                'referencia' => $data['referencia'], 
+                'referencia_data' => $data['referencia_data'],
+                'ativo' => $data['ativo'],
+                'idtempo' => $data['idtempo'],
+                'idlead' => $data['idlead'],
+                'idsituacao' => $data['idsituacao'],
+                'tempo' => $data['tempo'],
+                'data_cad' => $data['data_cad'],
+                'situacao' => $data['situacao'],
+                'sigla' => $data['sigla'],
+                'clientes_id' => $clientId,
+            ];
+            LeadsWorkflowTempo::create($LeadsWorkflowTempo);
         }
     }
 }

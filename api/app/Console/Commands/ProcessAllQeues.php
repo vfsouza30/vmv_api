@@ -41,7 +41,8 @@ class ProcessAllQueues extends Command
             'pre-cadastro:process',
             'repasse:process',
             'reservas:process',
-            'empreendimentos:process'
+            'empreendimentos:process',
+            'process-leads-workflow-tempo:process'
         ];
 
         foreach ($commands as $command) {

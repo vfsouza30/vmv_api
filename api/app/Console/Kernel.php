@@ -36,7 +36,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('pre-cadastro:process')->everyMinute()->runInBackground();
         $schedule->command('repasse:process')->everyMinute()->runInBackground();
         $schedule->command('reservas:process')->runInBackground();
-        $schedule->command('empreendimentos:process')->runInBackground();*/
+        $schedule->command('empreendimentos:process')->runInBackground();
+        $schedule->command('process-leads-workflow-tempo:process')->runInBackground();*/
 
         //$schedule->command('queue:processall')->dailyAt('00:00')->runInBackground();
         
