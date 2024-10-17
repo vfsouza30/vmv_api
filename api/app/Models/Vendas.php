@@ -15,7 +15,7 @@ class Vendas extends Model
         'idreserva' ,
         'idlead',
         'aprovada',
-        'data', 
+        'data_reserva', 
         'data_venda',
         'empreendimento',
         'idempreendimento',

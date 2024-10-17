@@ -350,7 +350,7 @@ class ProcessSinglePageJob implements ShouldQueue
                 'idreserva' => $data['idreserva'],
                 'idlead' => $data['idlead'],
                 'aprovada' => $data['aprovada'],
-                'data' => $data['data'],
+                'data_reserva' => $data['data_reserva'],
                 'data_venda' => $data['data_venda'],
                 'empreendimento' => $data['empreendimento'],
                 'idempreendimento' => $data['idempreendimento'],

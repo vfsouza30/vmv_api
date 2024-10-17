@@ -49,7 +49,7 @@ class Reserva extends Model
         'valor_proposta', 
         'valor_subsidio', 
         'venda', 
-        'id_reserva', 
+        'idreserva', 
         'clientes_id', 
         'created_at', 
         'updated_at'

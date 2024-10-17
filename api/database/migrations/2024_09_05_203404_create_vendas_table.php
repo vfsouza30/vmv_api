@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('idreserva')->nullable();
             $table->longText('idlead')->nullable();
             $table->longText('aprovada')->nullable();
-            $table->longText('data')->nullable();
+            $table->longText('data_reserva')->nullable();
             $table->longText('data_venda')->nullable();
             $table->longText('empreendimento')->nullable();
             $table->integer('idempreendimento')->nullable();
